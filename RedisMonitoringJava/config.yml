@@ -1,0 +1,20 @@
+logging:
+  level: INFO
+  loggers:
+    io.dmitrypol: DEBUG
+
+# https://github.com/dropwizard/dropwizard-redis
+redis:
+  type: basic
+  name: my-redis
+  node:
+    type: redis
+    node: "127.0.0.1:6379"
+    clientName: redis-monitoring-java
+  redisCodec:
+    type: string
+  clientResources:
+    type: default
+    commandLatencyCollector:
+      type: default
+      enabled: false

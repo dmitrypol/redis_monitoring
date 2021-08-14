@@ -1,6 +1,6 @@
 # How to monitor Redis servers
 
-* Setup local environment
+## Setup local environment
 * Install Docker on your computer
 * Run `docker-compose up --build -d`
 
@@ -22,4 +22,16 @@ redis-cli -h sentinel1 -p 26379 sentinel monitor my-redis IP_ADDRESS_HERE 6379 2
 # verify monitoring - should respond with info on current master and 2 replicas
 redis-cli -h sentinel1 -p 26379 sentinel master my-redis
 redis-cli -h sentinel1 -p 26379 sentinel replicas my-redis
+```
+
+## Run monitoring application
+The monitorinig appication is built in Java using https://www.dropwizard.io/en/latest/ but it could be done in another language / framework.  
+
+```
+cd RedisMonitoringJava
+mvn clean install
+java -jar target/RedisMonitoringJava-1.0-SNAPSHOT.jar server config.yml
+# verify server is running
+http://localhost:8080/
+http://localhost:8081/
 ```

@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RedisMonitoringJava" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="io.dmitrypol.RedisMonitoringJavaApplication" />
+    <module name="RedisMonitoringJava" />
+    <option name="PROGRAM_PARAMETERS" value="server config.yml" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
