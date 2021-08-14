@@ -114,6 +114,12 @@
     "scope" : "compile",
     "type" : "jar"
   }, {
+    "groupId" : "com.github.spullara.mustache.java",
+    "artifactId" : "compiler",
+    "version" : "0.9.10",
+    "scope" : "compile",
+    "type" : "jar"
+  }, {
     "groupId" : "com.google.code.findbugs",
     "artifactId" : "jsr305",
     "version" : "3.0.2",
@@ -302,6 +308,18 @@
   }, {
     "groupId" : "io.dropwizard",
     "artifactId" : "dropwizard-validation",
+    "version" : "2.0.24",
+    "scope" : "compile",
+    "type" : "jar"
+  }, {
+    "groupId" : "io.dropwizard",
+    "artifactId" : "dropwizard-views-mustache",
+    "version" : "2.0.24",
+    "scope" : "compile",
+    "type" : "jar"
+  }, {
+    "groupId" : "io.dropwizard",
+    "artifactId" : "dropwizard-views",
     "version" : "2.0.24",
     "scope" : "compile",
     "type" : "jar"

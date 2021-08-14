@@ -18,3 +18,11 @@ redis:
     commandLatencyCollector:
       type: default
       enabled: false
+
+sentinels:
+  - host: localhost
+    port: 26379
+  - host: localhost
+    port: 36379
+  - host: localhost
+    port: 46379

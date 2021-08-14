@@ -1,12 +1,14 @@
 package io.dmitrypol;
 
-import io.dmitrypol.resources.RedisMonitoringResource;
+import io.dmitrypol.client.RedisSentinelClient;
+import io.dmitrypol.resources.DevOpsResource;
 import io.dropwizard.Application;
 import io.dropwizard.redis.RedisClientBundle;
 import io.dropwizard.redis.RedisClientFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import io.lettuce.core.api.StatefulRedisConnection;
+import io.dropwizard.views.ViewBundle;
+import lombok.var;
 
 public class RedisMonitoringJavaApplication extends Application<RedisMonitoringJavaConfiguration> {
 
@@ -22,12 +24,14 @@ public class RedisMonitoringJavaApplication extends Application<RedisMonitoringJ
     @Override
     public void initialize(final Bootstrap<RedisMonitoringJavaConfiguration> bootstrap) {
         bootstrap.addBundle(redis);
+        bootstrap.addBundle(new ViewBundle<>());
     }
 
     @Override
     public void run(final RedisMonitoringJavaConfiguration config, final Environment env) {
-        final StatefulRedisConnection<String, String> redisConnection = redis.getConnection();
-        env.jersey().register(new RedisMonitoringResource(redisConnection));
+        final var redisConnection = redis.getConnection();
+        final var redisSentinelClient = new RedisSentinelClient(config);
+        env.jersey().register(new DevOpsResource(redisConnection, redisSentinelClient));
     }
 
     private final RedisClientBundle<String, String, RedisMonitoringJavaConfiguration> redis = new RedisClientBundle<String, String, RedisMonitoringJavaConfiguration>() {

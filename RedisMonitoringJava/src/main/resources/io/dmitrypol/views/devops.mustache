@@ -1,0 +1,34 @@
+{{>header}}
+
+<div class="alert alert-primary" role="alert">
+    Redis Masters
+</div>
+
+<div>
+    <a class="btn btn-danger" href="/masters" role="button">Redis Masters in JSON format</a>
+</div>
+<hr>
+
+{{#redisMasters}}
+    <table id="" class="table table-bordered table-hover table-striped table-sm">
+        <thead class="">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Master</th>
+            <th scope="col">Replicas</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#.}}
+            <tr>
+                <td>{{name}}</td>
+                <td><a class="btn btn-primary btn-sm" href="/master/{{name}}" role="button">Master</a></td>
+                <td><a class="btn btn-secondary btn-sm" href="/replicas/{{name}}" role="button">Replicas</a></td>
+            </tr>
+        {{/.}}
+        </tbody>
+    </table>
+    <hr>
+{{/redisMasters}}
+
+{{>footer}}

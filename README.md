@@ -16,8 +16,10 @@ redis-cli -h redis1 role
 
 # setup monitoring
 ping redis1
-# specify IP address in the command below
+# specify IP address in the command below to register Redis master with all 3 Sentinels
 redis-cli -h sentinel1 -p 26379 sentinel monitor my-redis IP_ADDRESS_HERE 6379 2
+redis-cli -h sentinel2 -p 26379 sentinel monitor my-redis IP_ADDRESS_HERE 6379 2
+redis-cli -h sentinel3 -p 26379 sentinel monitor my-redis IP_ADDRESS_HERE 6379 2
 
 # verify monitoring - should respond with info on current master and 2 replicas
 redis-cli -h sentinel1 -p 26379 sentinel master my-redis
