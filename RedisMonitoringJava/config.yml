@@ -19,6 +19,21 @@ redis:
       type: default
       enabled: false
 
+redis-cluster:
+  type: cluster
+  name: my-redis-cluster
+  nodes:
+    - type: redis
+      node: "127.0.0.1:30001"
+      clientName: redis-monitoring-java
+  redisCodec:
+    type: string
+  clientResources:
+    type: default
+    commandLatencyCollector:
+      type: default
+      enabled: false
+
 sentinels:
   - host: localhost
     port: 26379

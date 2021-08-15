@@ -1,6 +1,8 @@
 # How to monitor Redis servers
 
-## Setup local environment
+## Setup local environment with Redis and Sentinels
+
+* To make it easier we will run Redis and Sentinels with Docker
 * Install Docker on your computer
 * Run `docker-compose up --build -d`
 
@@ -26,7 +28,24 @@ redis-cli -h sentinel1 -p 26379 sentinel master my-redis
 redis-cli -h sentinel1 -p 26379 sentinel replicas my-redis
 ```
 
+## Setup Redis Cluster
+
+Redis comes with a handy script to setup Cluster so we will use that instead of Docker.  
+
+```
+git clone git@github.com:redis/redis.git
+make
+cd utils/create-cluster/
+./create-cluster start
+./create-cluster create
+
+# afterwards run
+./create-cluster stop
+./create-cluster clean
+```
+
 ## Run monitoring application
+
 The monitorinig appication is built in Java using https://www.dropwizard.io/en/latest/ but it could be done in another language / framework.  
 
 ```
@@ -37,3 +56,5 @@ java -jar target/RedisMonitoringJava-1.0-SNAPSHOT.jar server config.yml
 http://localhost:8080/
 http://localhost:8081/
 ```
+
+

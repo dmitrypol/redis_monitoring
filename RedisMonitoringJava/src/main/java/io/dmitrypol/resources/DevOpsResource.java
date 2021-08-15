@@ -3,9 +3,12 @@ package io.dmitrypol.resources;
 import io.dmitrypol.client.RedisSentinelClient;
 import io.dmitrypol.views.DevOpsView;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -19,8 +22,9 @@ import java.util.Map;
 @AllArgsConstructor
 @Slf4j
 public class DevOpsResource {
-    private final StatefulRedisConnection<String, String> redisConnection;
     private final RedisSentinelClient redisSentinelClient;
+    private final StatefulRedisConnection<String, String> redisConnection;
+    private final StatefulRedisClusterConnection<String, String> redisClusterConnection;
 
     @GET
     public DevOpsView devops() {
@@ -30,7 +34,7 @@ public class DevOpsResource {
     @GET
     @Path("redis")
     public String redis() {
-        return redisConnection.sync().ping();
+        return redisConnection.sync().info();
     }
 
     @GET
@@ -49,6 +53,26 @@ public class DevOpsResource {
     @Path("replicas/{name}")
     public List<List<Map<String, String>>> replicas(@PathParam("name") @NonNull String name){
         return redisSentinelClient.replicas(name);
+    }
+
+    @GET
+    @Path("clusterInfo")
+    public String[] clusterInfo() {
+        var tmp = redisClusterConnection.sync().clusterInfo();
+        return tmp.split("\\n");
+    }
+
+    @GET
+    @Path("clusterNodes")
+    public String[] clusterNodes() {
+        var tmp = redisClusterConnection.sync().clusterNodes();
+        return tmp.split("\\n");
+    }
+
+    @GET
+    @Path("clusterSlots")
+    public List<Object> clusterSlots() {
+        return redisClusterConnection.sync().clusterSlots();
     }
 
 }

@@ -3,8 +3,8 @@ package io.dmitrypol;
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.redis.RedisClientFactory;
+import io.dropwizard.redis.RedisClusterClientFactory;
 import lombok.Getter;
-import lombok.NonNull;
 import org.hibernate.validator.constraints.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -19,6 +19,14 @@ public class RedisMonitoringJavaConfiguration extends Configuration {
     @JsonProperty("redis")
     private RedisClientFactory<String, String> redisClientFactory;
 
-    @NotNull private List<Map<String, String>> sentinels;
+    @Valid
+    @NotNull
+    @JsonProperty("redis-cluster")
+    private RedisClusterClientFactory<String, String> redisClusterClientFactory;
+
+    @Valid
+    @NotNull
+    @JsonProperty("sentinels")
+    private List<Map<String, String>> sentinels;
 
 }
