@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -16,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Path("/")
 @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
@@ -33,8 +33,15 @@ public class DevOpsResource {
 
     @GET
     @Path("redis")
-    public String redis() {
-        return redisConnection.sync().info();
+    public String[] redis() {
+        var tmp = redisConnection.sync().info();
+        return tmp.split("\\n");
+    }
+
+    @GET
+    @Path("get/{key}")
+    public String get(@PathParam("key") @NonNull String key) {
+        return Optional.ofNullable(redisConnection.sync().get(key)).orElse("null");
     }
 
     @GET
@@ -53,6 +60,21 @@ public class DevOpsResource {
     @Path("replicas/{name}")
     public List<List<Map<String, String>>> replicas(@PathParam("name") @NonNull String name){
         return redisSentinelClient.replicas(name);
+    }
+
+    // cluster specific endpoints
+
+    @GET
+    @Path("cluster")
+    public String[] cluster() {
+        var tmp = redisClusterConnection.sync().info();
+        return tmp.split("\\n");
+    }
+
+    @GET
+    @Path("clusterGet/{key}")
+    public String clusterGet(@PathParam("key") @NonNull String key) {
+        return Optional.ofNullable(redisClusterConnection.sync().get(key)).orElse("null");
     }
 
     @GET

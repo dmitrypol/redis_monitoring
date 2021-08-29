@@ -26,6 +26,21 @@ redis-cluster:
     - type: redis
       node: "127.0.0.1:30001"
       clientName: redis-monitoring-java
+    - type: redis
+      node: "127.0.0.1:30002"
+      clientName: redis-monitoring-java
+    - type: redis
+      node: "127.0.0.1:30003"
+      clientName: redis-monitoring-java
+    - type: redis
+      node: "127.0.0.1:30004"
+      clientName: redis-monitoring-java
+    - type: redis
+      node: "127.0.0.1:30005"
+      clientName: redis-monitoring-java
+    - type: redis
+      node: "127.0.0.1:30006"
+      clientName: redis-monitoring-java
   redisCodec:
     type: string
   clientResources:

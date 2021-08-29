@@ -1,6 +1,7 @@
 package io.dmitrypol;
 
 import io.dmitrypol.client.RedisSentinelClient;
+import io.dmitrypol.client.RedisSentinelSubscriber;
 import io.dmitrypol.resources.DevOpsResource;
 import io.dropwizard.Application;
 import io.dropwizard.redis.RedisClientBundle;
@@ -35,7 +36,10 @@ public class RedisMonitoringJavaApplication extends Application<RedisMonitoringJ
         final var redisConnection = redisClientBundle.getConnection();
         final var redisClusterConnection = redisClusterClientBundle.getClusterConnection();
         final var redisSentinelClient = new RedisSentinelClient(config);
-        env.jersey().register(new DevOpsResource(redisSentinelClient, redisConnection,redisClusterConnection));
+        env.jersey().register(new DevOpsResource(redisSentinelClient, redisConnection, redisClusterConnection));
+        // subscribe to sentinels
+        var redisSentinelSubscriber = new RedisSentinelSubscriber(config);
+        env.lifecycle().manage(redisSentinelSubscriber);
     }
 
     private final RedisClientBundle<String, String, RedisMonitoringJavaConfiguration> redisClientBundle = new RedisClientBundle<String, String, RedisMonitoringJavaConfiguration>() {
